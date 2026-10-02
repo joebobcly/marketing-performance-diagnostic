@@ -26,5 +26,24 @@ comparison["click_to_lead_rate_change_pct"] = ((comparison["click_to_lead_rate_c
 comparison["leads_to_opportunity_rate_previous"] = comparison["opportunities_previous"] / comparison["leads_previous"] * 100
 comparison["leads_to_opportunity_rate_current"] = comparison["opportunities_current"] / comparison["leads_current"] * 100
 comparison["leads_to_opportunity_rate_change_pct"] = ((comparison["leads_to_opportunity_rate_current"] / comparison["leads_to_opportunity_rate_previous"]) - 1) * 100
+comparison["pipeline_per_opportunity_previous"] = comparison["pipeline_previous"] / comparison["opportunities_previous"]
+comparison["pipeline_per_opportunity_current"] = comparison["pipeline_current"] / comparison["opportunities_current"]
+comparison["pipeline_per_opportunity_change_pct"] = ((comparison["pipeline_per_opportunity_current"] / comparison["pipeline_per_opportunity_previous"]) - 1) * 100
 
-print(comparison)
+for index, campaign in comparison.iterrows():
+    diagnoses = []
+
+    if campaign["spend_change_pct"] > 5 and campaign["clicks_change_pct"] < -5:
+        diagnoses.append("Media efficiency deterioration")
+
+    if campaign["click_to_lead_rate_change_pct"] < -5:
+        diagnoses.append("Click-to-lead deterioration")
+
+    if campaign["leads_to_opportunity_rate_change_pct"] < -5:
+        diagnoses.append("Lead-to-opportunity deterioration")
+
+    if campaign["pipeline_per_opportunity_change_pct"] < -5:
+        diagnoses.append("Opportunity value deterioration")
+
+    print(campaign["campaign"])
+    print(diagnoses)
